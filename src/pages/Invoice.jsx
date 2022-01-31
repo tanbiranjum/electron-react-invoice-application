@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { IoCheckmarkCircleOutline, IoCloseCircleOutline } from 'react-icons/io5'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getInvoice } from '../redux/invoiceSlice'
+import { deleteInvoice, getInvoice } from '../redux/invoiceSlice'
 import ReactToPrint from 'react-to-print'
 import { Link } from 'react-router-dom'
 
@@ -29,15 +29,22 @@ const Status = ({ status }) => {
 
 export const Invoice = () => {
   const { invoice } = useSelector((state) => state.invoice)
+  const data = invoice.data
   const { id } = useParams()
   const dispatch = useDispatch()
   let componentRef = useRef()
+
+  const handleDelete = () => {
+    dispatch(deleteInvoice(id))
+  }
 
   useEffect(async () => {
     dispatch(getInvoice(id))
   }, [])
   return (
     <div className="w-4/6 mx-auto">
+      {console.log('Hello')}
+      {console.log(invoice)}
       {!invoice.id && (
         <div className="flex w-full items-center justify-center">
           <button className="btn btn-xs btn-accent loading mx-auto h-12 mt-20">
@@ -52,18 +59,25 @@ export const Invoice = () => {
               <p className="mr-4">Status</p>
               <div className="alert h-10 w-24 bg-green-100 rounded">
                 <div className="flex justify-center items-center">
-                  {<Status status={invoice.status} />}
+                  {<Status status={data.status} />}
                 </div>
               </div>
             </div>
             <div>
-              <button className="btn btn-primary rounded">
-                <Link to={`/create/${invoice.id}`}>Edit</Link>
+              <Link to={`/create/${invoice.id}`}>
+                <button className="btn btn-primary rounded">Edit</button>
+              </Link>
+              <button
+                className="btn btn-error rounded ml-3"
+                onClick={handleDelete}
+              >
+                Delete
               </button>
-              <button className="btn btn-error rounded ml-3">Delete</button>
               <ReactToPrint
                 trigger={() => (
-                  <button className="btn btn-secondary rounded ml-3">Print</button>
+                  <button className="btn btn-secondary rounded ml-3">
+                    Print
+                  </button>
                 )}
                 content={() => componentRef}
               />
@@ -75,7 +89,7 @@ export const Invoice = () => {
           >
             <div className="flex justify-between">
               <div>
-                <p className="text-2xl font-bold">#{invoice.id}</p>
+                <p className="text-2xl font-bold">#{data.invoiceId}</p>
                 <p>Re-branding</p>
               </div>
               <div className="text-right">
@@ -91,37 +105,33 @@ export const Invoice = () => {
                       Bill To
                     </p>
                   </span>
-                  <p className="text-xl font-bold">{invoice.name}</p>
-                  <p className="text-slate-500 font-semibold">
-                    {invoice.phone}
-                  </p>
-                  <p className="text-slate-500">{invoice.address}</p>
+                  <p className="text-xl font-bold">{data.name}</p>
+                  <p className="text-slate-500 font-semibold">{data.phone}</p>
+                  <p className="text-slate-500">{data.address}</p>
                   <span>
                     <p className="text-slate-500 text-sm font-semibold mt-2">
                       Description
                     </p>
                   </span>
-                  <p className="text-sm text-slate-500">
-                    {invoice.description}
-                  </p>
+                  <p className="text-sm text-slate-500">{data.description}</p>
                 </div>
                 <div className="text-right w-1/2">
                   <span>
                     <p className="text-slate-500 text-sm font-semibold">Code</p>
                   </span>
-                  <p className="text-lg font-semibold">{invoice.code}</p>
+                  <p className="text-lg font-semibold">{data.code}</p>
                   <span>
                     <p className="text-slate-500 text-sm font-semibold mt-3">
                       Date
                     </p>
                   </span>
-                  <p className="text-lg font-semibold">{invoice.date}</p>
+                  <p className="text-lg font-semibold">{data.date}</p>
                   <span>
                     <p className="text-slate-500 text-sm font-semibold mt-3">
                       Marketing Officer
                     </p>
                   </span>
-                  <p className="text-lg font-semibold">{invoice.mo}</p>
+                  <p className="text-lg font-semibold">{data.mo}</p>
                 </div>
               </div>
             </div>
@@ -138,7 +148,7 @@ export const Invoice = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {invoice.products.map((item, index) => (
+                  {data.products.map((item, index) => (
                     <tr key={index}>
                       <th>{index + 1}</th>
                       <td>{item.color}</td>
@@ -154,7 +164,7 @@ export const Invoice = () => {
             <div className="flex py-6 px-4 justify-between items-center bg-slate-800 text-white rounded">
               <p className="text-sm font-semibold">Total Amount</p>
               <p className="mr-12 text-2xl font-bold">
-                &#2547;{invoice.totalAmount}
+                &#2547;{data.totalAmount}
               </p>
             </div>
           </div>

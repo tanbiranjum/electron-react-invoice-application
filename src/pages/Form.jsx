@@ -5,7 +5,7 @@ import { IoTrashOutline } from 'react-icons/io5'
 import useSelectField from '../hooks/useSelectField'
 import invoiceId from '../utility/id'
 import { useDispatch, useSelector } from 'react-redux'
-import { createInvoice } from '../redux/invoiceSlice'
+import { createInvoice, updateInvoice } from '../redux/invoiceSlice'
 import { useParams } from 'react-router-dom'
 
 export const Form = () => {
@@ -17,7 +17,7 @@ export const Form = () => {
 
   const { invoice } = useSelector((state) => state.invoice)
 
-  const initailValues = {
+  let initailValues = {
     name: '',
     phone: '',
     address: '',
@@ -25,7 +25,7 @@ export const Form = () => {
     code: '',
     mo: '',
     description: '',
-    status: '',
+    status: 'unpaid',
     products: [
       {
         id: Date.now(),
@@ -35,7 +35,6 @@ export const Form = () => {
         rate: '',
       },
     ],
-    totalAmount: 0,
   }
 
   const validationSchema = Yup.object().shape({
@@ -57,14 +56,25 @@ export const Form = () => {
   })
 
   const handleSubmit = (value) => {
-    const id = invoiceId()
+    if (isAddMode) {
+      const invoiceId = invoiceId()
+      const timestamp = Date.now()
+      const totalAmount = value.products.reduce((acc, current) => {
+        return acc + current.rate * 1
+      }, 0)
+      dispatch(createInvoice({ invoiceId, ...value, totalAmount, timestamp }))
+      return
+    }
+    //updatemode
     const timestamp = Date.now()
-    value.status = value.status === '' ? 'unpaid' : value.status[0]
-    value.totalAmount = value.products.reduce((acc, current) => {
+    const totalAmount = value.products.reduce((acc, current) => {
       return acc + current.rate * 1
     }, 0)
-    // dispatch(createInvoice({ id, ...value, timestamp }))
-    console.log({ id, ...value, timestamp })
+    const newValue = {
+      id: invoice.id,
+      updatedValue: { ...value, totalAmount, timestamp },
+    }
+    dispatch(updateInvoice(newValue))
   }
 
   return (
@@ -75,7 +85,7 @@ export const Form = () => {
         <p className="text-blue-500">Bill Form</p>
       </span>
       <Formik
-        initialValues={isAddMode ? initailValues : invoice}
+        initialValues={isAddMode ? initailValues : invoice.data}
         // validationSchema={validationSchema}
         onSubmit={(value) => {
           //   validationSchema.validate(value).then((result) => {
@@ -253,12 +263,23 @@ export const Form = () => {
           <div className="p-6 card bordered">
             <div className="form-control">
               <label className="cursor-pointer label">
-                <span className="label-text">Payment status</span>
+                <span className="label-text">Paid</span>
                 <Field
-                  type="checkbox"
+                  type="radio"
                   name="status"
+                  className="radio radio-primary"
                   value="paid"
-                  className="toggle toggle-primary"
+                />
+              </label>
+            </div>
+            <div className="form-control">
+              <label className="cursor-pointer label">
+                <span className="label-text">Unpaid</span>
+                <Field
+                  type="radio"
+                  name="status"
+                  className="radio radio-secondary"
+                  value="unpaid"
                 />
               </label>
             </div>

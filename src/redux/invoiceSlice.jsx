@@ -7,8 +7,7 @@ import {
   deleteDoc,
   doc,
   setDoc,
-  query,
-  where,
+  updateDoc,
 } from 'firebase/firestore'
 import { db } from '../services/firebase'
 
@@ -28,29 +27,22 @@ const initialState = {
 export const getInvoices = createAsyncThunk('invoice/getInvoices', async () => {
   const dataCollection = collection(db, 'invoice')
   const result = await getDocs(dataCollection)
-  const snapshot = result.docs.map((doc) => doc.data())
-  return snapshot
+  let invoices = []
+  result.docs.forEach((doc) => {
+    invoices.push({ id: doc.id, ...doc.data() })
+  })
+  return invoices
 })
 
 export const getInvoice = createAsyncThunk('invoice/getInvoice', async (id) => {
-  const invoicesRef = collection(db, 'invoice')
-  const q = query(invoicesRef, where('id', '==', id))
-  const docSnap = await getDocs(q)
-  const result = docSnap.docs.map((doc) => doc.data())[0]
-  console.log('Hi')
-  console.log(result)
+  const docSnap = await getDoc(doc(db, 'invoice', id))
+  const result = { id: docSnap.id, data: docSnap.data() }
   return result
 })
 
 export const createInvoice = createAsyncThunk(
   'invoice/create',
   async (invoice) => {
-    // const docRef = doc(db, 'data', 'JDYeuXgDeFh8fNqAh3Au')
-    // let invoiceNo = await getDoc(docRef).data().invoiceNo
-    // invoiceNo = invoiceNo * 1 + 1
-    // await setDoc(docRef, { invoiceNo })
-    // console.log(invoiceNo)
-    // invoice.invoiceNo = invoiceNo
     await addDoc(collection(db, 'invoice'), invoice)
   }
 )
@@ -62,9 +54,13 @@ export const deleteInvoice = createAsyncThunk('invoice/delete', async (id) => {
 
 export const updateInvoice = createAsyncThunk(
   'invoice/update',
-  async (id, data) => {
-    const docRef = doc(db, 'invoice', id)
-    await setDoc(docRef, data)
+  async (data) => {
+    try {
+      const docRef = doc(db, 'invoice', data.id)
+      await updateDoc(docRef, data.updatedValue)
+    } catch (error) {
+      console.log(error)
+    }
   }
 )
 
