@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { List } from '../components/UI/List'
+import { LoadButton } from '../components/UI/LoadButton'
 
 export const Invoices = () => {
   const [status, setStatus] = useState('all')
@@ -9,7 +10,6 @@ export const Invoices = () => {
 
   return (
     <div className="w-4/6 mx-auto">
-      {console.log(invoices)}
       <div className="flex justify-between items-center">
         <div>
           <p className="text-4xl font-semibold">Invoices</p>
@@ -44,6 +44,7 @@ export const Invoices = () => {
           </div>
         </div>
       </div>
+      {invoices.length <= 0 && <LoadButton />}
       {invoices
         .filter((invoice) => {
           if (invoice.status === status) {

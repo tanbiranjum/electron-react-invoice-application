@@ -49,7 +49,6 @@ export const createInvoice = createAsyncThunk(
 
 export const deleteInvoice = createAsyncThunk('invoice/delete', async (id) => {
   let req = await deleteDoc(doc(db, 'invoice', id))
-  console.log(req)
 })
 
 export const updateInvoice = createAsyncThunk(

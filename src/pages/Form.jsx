@@ -56,6 +56,7 @@ export const Form = () => {
   })
 
   const handleSubmit = (value) => {
+    alert('submitting form')
     if (isAddMode) {
       const invoiceId = invoiceId()
       const timestamp = Date.now()
@@ -79,14 +80,13 @@ export const Form = () => {
 
   return (
     <div className="w-4/6 mx-auto">
-      {console.log(isAddMode)}
       <p className="text-2xl">Create Invoice</p>
       <span>
         <p className="text-blue-500">Bill Form</p>
       </span>
       <Formik
         initialValues={isAddMode ? initailValues : invoice.data}
-        // validationSchema={validationSchema}
+        validationSchema={validationSchema}
         onSubmit={(value) => {
           //   validationSchema.validate(value).then((result) => {
           //     console.log(result)
@@ -95,7 +95,6 @@ export const Form = () => {
         }}
       >
         <Forms className="bg-white p-8 rounded shadow">
-          {console.log(invoice)}
           <div className="form-control w-full">
             <label className="label">
               <span className="label-text">Name</span>
@@ -285,7 +284,13 @@ export const Form = () => {
             </div>
           </div>
           <div className="flex justify-between mt-4">
-            <button className="btn btn-outline btn-primary">Discard</button>
+            <button
+              type="submit"
+              className="btn btn-outline btn-primary"
+              onSubmit={({ resetForm }) => resetForm()}
+            >
+              Discard
+            </button>
             <div>
               <button type="button" className="btn btn-outline btn-primary">
                 Save as Draft

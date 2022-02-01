@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import { deleteInvoice, getInvoice } from '../redux/invoiceSlice'
 import ReactToPrint from 'react-to-print'
 import { Link } from 'react-router-dom'
+import { LoadButton } from '../components/UI/LoadButton'
 
 const Status = ({ status }) => {
   if (status === 'paid') {
@@ -43,15 +44,7 @@ export const Invoice = () => {
   }, [])
   return (
     <div className="w-4/6 mx-auto">
-      {console.log('Hello')}
-      {console.log(invoice)}
-      {!invoice.id && (
-        <div className="flex w-full items-center justify-center">
-          <button className="btn btn-xs btn-accent loading mx-auto h-12 mt-20">
-            loading
-          </button>
-        </div>
-      )}
+      {!invoice.id && <LoadButton />}
       {invoice.id && (
         <>
           <div className="flex w-full p-5 justify-between items-center bg-white rounded shadow-sm">
