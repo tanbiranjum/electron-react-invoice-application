@@ -12,6 +12,8 @@ Invoice application to manage invoice and print. Made with Electron,React,Fireba
 - React Router
 - Redux
 - Redux Toolkit
+- Formik
+- Yup
 
 ## Installation
 
