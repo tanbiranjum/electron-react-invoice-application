@@ -1,6 +1,7 @@
 # Invoice Application
 
 Invoice application to manage invoice and print. Made with Electron,React,Firebase,Tailwind.css
+(It's my second project using react)
 
 ## Tools
 
