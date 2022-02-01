@@ -29,3 +29,4 @@ To run this app
 ## Screenshots
 
 ![App Screenshot](https://raw.githubusercontent.com/tanbiranjum/electron-react-invoice-application/main/screenshot/1.jpg)
+![App Screenshot](https://raw.githubusercontent.com/tanbiranjum/electron-react-invoice-application/main/screenshot/2.jpg)
