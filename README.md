@@ -1,7 +1,6 @@
-
 # Invoice Application
-Invoice application to manage invoice and print. Made with Electron,React,Firebase,Tailwind.css
 
+Invoice application to manage invoice and print. Made with Electron,React,Firebase,Tailwind.css
 
 ## Tools
 
@@ -26,3 +25,7 @@ To run this app
 ```bash
   pnpm electrondev
 ```
+
+## Screenshots
+
+![App Screenshot](https://raw.githubusercontent.com/tanbiranjum/electron-react-invoice-application/main/screenshot/1.jpg)
