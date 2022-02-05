@@ -105,6 +105,7 @@ export const Form = () => {
               name="name"
               className="input input-bordered"
             />
+            <ErrorMessage component="p" name="name" className="text-red-600" />
           </div>
           <div className="form-control w-full">
             <label className="label">
@@ -115,6 +116,11 @@ export const Form = () => {
               placeholder="phone no"
               name="phone"
               className="input input-bordered"
+            />
+            <ErrorMessage
+              component="p"
+              name="phone"
+              className="text-red-600"
             />
           </div>
           <div className="form-control w-full">
@@ -127,7 +133,13 @@ export const Form = () => {
               name="address"
               className="input input-bordered"
             />
+            <ErrorMessage
+              component="p"
+              name="address"
+              className="text-red-600"
+            />
           </div>
+          <ErrorMessage component="p" name="code" className="text-red-600" />
           <div className="flex w-full mt-3 justify-between">
             <Field
               as="select"
@@ -158,11 +170,13 @@ export const Form = () => {
               )}
             </Field>
           </div>
+          <ErrorMessage component="p" name="mo" className="text-red-600" />
           <div className="form-control w-full">
             <label className="label">
               <span className="label-text">Date</span>
             </label>
             <Field type="date" name="date" className="input input-bordered" />
+            <ErrorMessage component="p" name="date" className="text-red-600" />
           </div>
           <div className="form-control">
             <label className="label">
@@ -174,6 +188,11 @@ export const Form = () => {
               className="textarea h-24 textarea-bordered"
               placeholder="Description"
             ></Field>
+            <ErrorMessage
+              component="p"
+              name="address"
+              className="text-red-600"
+            />
           </div>
           <p className="text-2xl mt-4 font-semibold text-gray-500">itemList</p>
           <FieldArray name="products">
@@ -198,6 +217,11 @@ export const Form = () => {
                           name={`products[${index}]['color']`}
                           className="input input-bordered"
                         />
+                        <ErrorMessage
+                          component="p"
+                          name={`products[${index}]['color']`}
+                          className="text-red-600"
+                        />
                       </div>
                       <div className="form-control w-2/12">
                         <label className="label">
@@ -208,6 +232,11 @@ export const Form = () => {
                           placeholder="quantity"
                           name={`products[${index}]['quantity']`}
                           className="input input-bordered"
+                        />
+                        <ErrorMessage
+                          component="p"
+                          name={`products[${index}]['quantity']`}
+                          className="text-red-600"
                         />
                       </div>
                       <div className="form-control w-2/12">
@@ -220,6 +249,11 @@ export const Form = () => {
                           name={`products[${index}]['size']`}
                           className="input input-bordered"
                         />
+                        <ErrorMessage
+                          component="p"
+                          name={`products[${index}]['size']`}
+                          className="text-red-600"
+                        />
                       </div>
                       <div className="form-control w-2/12">
                         <label className="label">
@@ -230,6 +264,11 @@ export const Form = () => {
                           placeholder="rate"
                           name={`products[${index}]['rate']`}
                           className="input input-bordered"
+                        />
+                        <ErrorMessage
+                          component="p"
+                          name={`products[${index}]['rate']`}
+                          className="text-red-600"
                         />
                       </div>
                       <p

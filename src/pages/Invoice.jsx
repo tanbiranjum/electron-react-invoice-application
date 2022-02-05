@@ -67,6 +67,9 @@ export const Invoice = () => {
                 Delete
               </button>
               <ReactToPrint
+                onAfterPrint={() => {
+                  console.log('haha')
+                }}
                 trigger={() => (
                   <button className="btn btn-secondary rounded ml-3">
                     Print
